@@ -1,16 +1,16 @@
-package com.example.retrofit.api;
+package com.example.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiClient {
+public class RetrofitClient {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://10.0.2.2:8080/"; // Sử dụng 10.0.2.2 cho localhost trên trình giả lập
+    private static final String BASE_URL = "http://app.iotstar.vn:8081/appfoods/";
 
     public static synchronized Retrofit getRetrofit() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL) // Đường dẫn API cơ sở
+                    .baseUrl(BASE_URL) // Đường dẫn API
                     .addConverterFactory(GsonConverterFactory.create()) // Chuyển đổi JSON sang Object
                     .build();
         }

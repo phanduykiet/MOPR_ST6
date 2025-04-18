@@ -1,4 +1,4 @@
-package com.example.retrofit.adapter;
+package com.example.retrofit;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,26 +6,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.retrofit.R;
-import com.example.retrofit.dto.Category;
-import com.example.retrofit.OnCategoryClickListener;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
-    private Context context;
-    private List<Category> array;
-    private OnCategoryClickListener listener;
+    Context context;
+    List<Category> array;
 
-    public CategoryAdapter(Context context, List<Category> array, OnCategoryClickListener listener) {
+    public CategoryAdapter(Context context, List<Category> array) {
         this.context = context;
         this.array = array;
-        this.listener = listener;
     }
 
     @NonNull
@@ -39,17 +35,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Category category = array.get(position);
-        holder.tenSp.setText(category.getCategoryName());
+        holder.tenSp.setText(category.getName());
 
+        // Load ảnh với Glide
         Glide.with(context)
-             .load(category.getImage())
+             .load(category.getImages())
              .into(holder.images);
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onCategoryClick(category.getCategoryName());
-            }
-        });
     }
 
     @Override
@@ -65,6 +56,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             super(itemView);
             images = itemView.findViewById(R.id.image_cate);
             tenSp = itemView.findViewById(R.id.tvNameCategory);
+
+            // Bắt sự kiện cho item holder trong MyViewHolder
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Xử lý khi nhấp vào Item trên category
+                    Toast.makeText(context, "Bạn đã chọn category " + tenSp.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }
